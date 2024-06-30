@@ -1,34 +1,40 @@
-// Defining a function to generate the grade for a student based on their marks
-function generateStudentGrade() {
-    //user to enter marks
-    let marks = prompt("Enter the student's marks (between 0 and 100):");
+const readline = require('readline');
 
-    // Convert the input marks to a number
-    marks = Number(marks);
+// Creating an interface for reading input from the console
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-    // Checking if marks are within the valid range (0 to 100)
-    if (marks >= 0 && marks <= 100) {
-        // Determining the grade based on the marks
-        let grade;
-        if (marks > 79) {
-            grade = 'A'; // Marks greater than 79 receive an 'A'
-        } else if (marks >= 60) {
-            grade = 'B'; // Marks between 60 and 79 (inclusive) receive a 'B'
-        } else if (marks >= 49) {
-            grade = 'C'; // Marks between 49 and 59 (inclusive) receive a 'C'
-        } else if (marks >= 40) {
-            grade = 'D'; // Marks between 40 and 49 (inclusive) receive a 'D'
-        } else {
-            grade = 'E'; // Marks less than 40 receive an 'E'
-        }
-
-        // Displaying the grade to the user
-        console.log(`The grade for the marks ${marks} is: ${grade}`);
+// Defining a function to generate a student's grade based on marks
+function generateStudentGrade(marks) {
+    // Checking the range of marks and returning the corresponding grade
+    if (marks > 79) {
+        return 'A';
+    } else if (marks >= 60 && marks <= 79) {
+        return 'B';
+    } else if (marks >= 50 && marks <= 59) {
+        return 'C';
+    } else if (marks >= 40 && marks <= 49) {
+        return 'D';
     } else {
-        // If the input marks are not within the valid range, display an error message
-        console.log("Invalid input. Please enter a number between 0 and 100.");
+        return 'E';
     }
 }
 
-// Calling the function to execute the grade generation process
-generateStudentGrade();
+// Prompting the user for input and processing it
+rl.question("Enter the student's marks (between 0 and 100): ", function(marks) {
+    marks = parseInt(marks);
+
+    // Checking if the input is valid
+    if (isNaN(marks) || marks < 0 || marks > 100) {
+        console.log('Invalid input. Please enter a number between 0 and 100.');
+    } else {
+        // Generating and logging the student's grade
+        const grade = generateStudentGrade(marks);
+        console.log(`The student's grade is: ${grade}`);
+    }
+
+    // Closing the readline interface
+    rl.close();
+});
